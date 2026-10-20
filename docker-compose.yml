@@ -6,3 +6,11 @@ services:
     container_name: patient-service
     ports:
       - "8081:8081"
+
+  appointment-service:
+    build:
+      context: ./appointment-service
+      dockerfile: Dockerfile
+    container_name: appointment-service
+    ports:
+      - "8082:8082"

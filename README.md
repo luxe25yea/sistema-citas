@@ -69,20 +69,19 @@ docker compose down
 
 Cada servicio se compila y se levanta por separado.
 
-```bash
-# patient-service
-cd patient-service
-./mvnw spring-boot:run
-```
-
 En Windows:
 
 ```powershell
+# patient-service (puerto 8081)
 cd patient-service
+.\mvnw.cmd spring-boot:run
+
+# appointment-service (puerto 8082)
+cd appointment-service
 .\mvnw.cmd spring-boot:run
 ```
 
-Endpoints disponibles:
+#### Endpoints de `patient-service` (:8081)
 
 - `GET http://localhost:8081/patients`
 - `GET http://localhost:8081/patients/{id}`
@@ -96,6 +95,23 @@ Endpoints disponibles:
   }
   ```
 - Consola H2: `http://localhost:8081/h2-console` (JDBC URL `jdbc:h2:mem:patients`, user `sa`, sin password)
+
+#### Endpoints de `appointment-service` (:8082)
+
+- `GET http://localhost:8082/appointments` (Lista todas las citas)
+- `GET http://localhost:8082/appointments?patientId=1` (Filtra citas de un paciente)
+- `GET http://localhost:8082/appointments/{id}` (Consulta cita por ID)
+- `POST http://localhost:8082/appointments` (Reserva cita con validación y regla de conflicto anti-solapamiento)
+  ```json
+  {
+    "patientId": 1,
+    "doctorName": "Dra. Maria Lopez",
+    "dateTime": "2026-11-20T10:00:00",
+    "reason": "Control médico"
+  }
+  ```
+  *Regla de conflicto*: Si el médico o el paciente ya tienen una cita agendada en la misma fecha y hora, responde `409 Conflict`.
+- Consola H2: `http://localhost:8082/h2-console` (JDBC URL `jdbc:h2:mem:appointments`, user `sa`, sin password)
 
 ## Docker
 
@@ -115,7 +131,7 @@ no pisar el jar construido con artefactos de la build local.
 - [x] Sesion 1 - patient-service: entidad, repositorio, consulta
 - [x] Sesion 2 - H2 y persistencia
 - [x] Sesion 3 - POST /patients
-- [ ] Sesion 4 - segundo servicio y regla de conflicto
+- [x] Sesion 4 - segundo servicio y regla de conflicto
 - [ ] Sesion 5 - Eureka server y registro de servicios
 - [ ] Sesion 6 - comunicacion entre servicios
 - [ ] Sesion 7 - notification-service
