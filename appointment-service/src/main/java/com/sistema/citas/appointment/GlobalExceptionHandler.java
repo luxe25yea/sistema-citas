@@ -10,12 +10,24 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+/**
+ * Manejador global de excepciones para appointment-service.
+ * Captura fallos de validación en los DTOs y construye respuestas legibles.
+ */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    /**
+     * Intercepta errores de validación de campos provocados por anotaciones como @NotBlank, @NotNull, @Future.
+     *
+     * @param ex Excepción lanzada cuando los datos del request no superan las validaciones
+     * @return Respuesta HTTP 400 con los campos y mensajes de error específicos
+     */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, Object>> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
+
+        // Recolecta el mensaje de error de cada campo inválido
         for (FieldError error : ex.getBindingResult().getFieldErrors()) {
             errors.put(error.getField(), error.getDefaultMessage());
         }
