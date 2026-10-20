@@ -86,6 +86,15 @@ Endpoints disponibles:
 
 - `GET http://localhost:8081/patients`
 - `GET http://localhost:8081/patients/{id}`
+- `POST http://localhost:8081/patients` (Crear paciente, retorna `201 Created` y header `Location`)
+  ```json
+  {
+    "firstName": "Carlos",
+    "lastName": "Mendoza",
+    "email": "carlos.mendoza@ejemplo.com",
+    "phone": "+54 11 5555 0404"
+  }
+  ```
 - Consola H2: `http://localhost:8081/h2-console` (JDBC URL `jdbc:h2:mem:patients`, user `sa`, sin password)
 
 ## Docker
@@ -105,7 +114,7 @@ no pisar el jar construido con artefactos de la build local.
 
 - [x] Sesion 1 - patient-service: entidad, repositorio, consulta
 - [x] Sesion 2 - H2 y persistencia
-- [ ] Sesion 3 - POST /patients
+- [x] Sesion 3 - POST /patients
 - [ ] Sesion 4 - segundo servicio y regla de conflicto
 - [ ] Sesion 5 - Eureka server y registro de servicios
 - [ ] Sesion 6 - comunicacion entre servicios
